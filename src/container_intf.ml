@@ -7,18 +7,15 @@
 
 open! Import
 
+(** @canonical Base.Container *)
 module Export = struct
   (** [Continue_or_stop.t] is used by the [f] argument to [fold_until] in order to
-      indicate whether folding should continue, or stop early.
-      @canonical Base.Container.Continue_or_stop *)
+      indicate whether folding should continue, or stop early. *)
   module Continue_or_stop = struct
     type ('a, 'b) t =
       | Continue of 'a
       | Stop of 'b
   end
-end
-
-include Export
 
 module type Summable = sig
   type t
@@ -30,6 +27,11 @@ module type Summable = sig
       as well as in the symmetric case. *)
   val ( + ) : t -> t -> t
 end
+
+  
+end
+
+include Export
 
 (** Signature for monomorphic container, e.g., string. *)
 module type S0 = sig
