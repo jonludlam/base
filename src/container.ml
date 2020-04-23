@@ -2,6 +2,7 @@ open! Import
 module Array = Array0
 module List = List0
 include Container_intf
+include Export
 
 let with_return = With_return.with_return
 

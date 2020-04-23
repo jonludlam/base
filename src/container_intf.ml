@@ -31,7 +31,6 @@ end
   
 end
 
-include Export
 
 (** Signature for monomorphic container, e.g., string. *)
 module type S0 = sig
@@ -93,7 +92,7 @@ module type S0 = sig
   val fold_until
     :  t
     -> init:'accum
-    -> f:('accum -> elt -> ('accum, 'final) Continue_or_stop.t)
+    -> f:('accum -> elt -> ('accum, 'final) Export.Continue_or_stop.t)
     -> finish:('accum -> 'final)
     -> 'final
 
@@ -186,7 +185,7 @@ module type S0_phantom = sig
   val fold_until
     :  _ t
     -> init:'accum
-    -> f:('accum -> elt -> ('accum, 'final) Continue_or_stop.t)
+    -> f:('accum -> elt -> ('accum, 'final) Export.Continue_or_stop.t)
     -> finish:('accum -> 'final)
     -> 'final
 
@@ -203,7 +202,7 @@ module type S0_phantom = sig
 
   (** Returns the sum of [f i] for all [i] in the container. The order in which the
       elements will be summed is unspecified. *)
-  val sum : (module Summable with type t = 'sum) -> _ t -> f:(elt -> 'sum) -> 'sum
+  val sum : (module Export.Summable with type t = 'sum) -> _ t -> f:(elt -> 'sum) -> 'sum
 
   (** Returns as an [option] the first element for which [f] evaluates to true. *)
   val find : _ t -> f:(elt -> bool) -> elt option
@@ -279,7 +278,7 @@ module type S1 = sig
   val fold_until
     :  'a t
     -> init:'accum
-    -> f:('accum -> 'a -> ('accum, 'final) Continue_or_stop.t)
+    -> f:('accum -> 'a -> ('accum, 'final) Export.Continue_or_stop.t)
     -> finish:('accum -> 'final)
     -> 'final
 
@@ -295,7 +294,7 @@ module type S1 = sig
   val count : 'a t -> f:('a -> bool) -> int
 
   (** Returns the sum of [f i] for all [i] in the container. *)
-  val sum : (module Summable with type t = 'sum) -> 'a t -> f:('a -> 'sum) -> 'sum
+  val sum : (module Export.Summable with type t = 'sum) -> 'a t -> f:('a -> 'sum) -> 'sum
 
   (** Returns as an [option] the first element for which [f] evaluates to true. *)
   val find : 'a t -> f:('a -> bool) -> 'a option
@@ -371,7 +370,7 @@ module type S1_phantom_invariant = sig
   val fold_until
     :  ('a, _) t
     -> init:'accum
-    -> f:('accum -> 'a -> ('accum, 'final) Continue_or_stop.t)
+    -> f:('accum -> 'a -> ('accum, 'final) Export.Continue_or_stop.t)
     -> finish:('accum -> 'final)
     -> 'final
 
@@ -387,7 +386,7 @@ module type S1_phantom_invariant = sig
   val count : ('a, _) t -> f:('a -> bool) -> int
 
   (** Returns the sum of [f i] for all [i] in the container. *)
-  val sum : (module Summable with type t = 'sum) -> ('a, _) t -> f:('a -> 'sum) -> 'sum
+  val sum : (module Export.Summable with type t = 'sum) -> ('a, _) t -> f:('a -> 'sum) -> 'sum
 
   (** Returns as an [option] the first element for which [f] evaluates to true. *)
   val find : ('a, _) t -> f:('a -> bool) -> 'a option
@@ -432,14 +431,14 @@ module type Generic = sig
   val fold_until
     :  'a t
     -> init:'accum
-    -> f:('accum -> 'a elt -> ('accum, 'final) Continue_or_stop.t)
+    -> f:('accum -> 'a elt -> ('accum, 'final) Export.Continue_or_stop.t)
     -> finish:('accum -> 'final)
     -> 'final
 
   val exists : 'a t -> f:('a elt -> bool) -> bool
   val for_all : 'a t -> f:('a elt -> bool) -> bool
   val count : 'a t -> f:('a elt -> bool) -> int
-  val sum : (module Summable with type t = 'sum) -> 'a t -> f:('a elt -> 'sum) -> 'sum
+  val sum : (module Export.Summable with type t = 'sum) -> 'a t -> f:('a elt -> 'sum) -> 'sum
   val find : 'a t -> f:('a elt -> bool) -> 'a elt option
   val find_map : 'a t -> f:('a elt -> 'b option) -> 'b option
   val to_list : 'a t -> 'a elt list
@@ -466,7 +465,7 @@ module type Generic_phantom = sig
   val fold_until
     :  ('a, _) t
     -> init:'accum
-    -> f:('accum -> 'a elt -> ('accum, 'final) Continue_or_stop.t)
+    -> f:('accum -> 'a elt -> ('accum, 'final) Export.Continue_or_stop.t)
     -> finish:('accum -> 'final)
     -> 'final
 
@@ -475,7 +474,7 @@ module type Generic_phantom = sig
   val count : ('a, _) t -> f:('a elt -> bool) -> int
 
   val sum
-    :  (module Summable with type t = 'sum)
+    :  (module Export.Summable with type t = 'sum)
     -> ('a, _) t
     -> f:('a elt -> 'sum)
     -> 'sum
@@ -596,7 +595,7 @@ module type Container = sig
   val fold_until
     :  fold:('t, 'a, 'b) fold
     -> init:'b
-    -> f:('b -> 'a -> ('b, 'final) Continue_or_stop.t)
+    -> f:('b -> 'a -> ('b, 'final) Export.Continue_or_stop.t)
     -> finish:('b -> 'final)
     -> 't
     -> 'final
