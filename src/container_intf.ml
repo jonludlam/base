@@ -7,7 +7,6 @@
 
 open! Import
 
-(** @canonical Base.Container *)
 module Export = struct
   (** [Continue_or_stop.t] is used by the [f] argument to [fold_until] in order to
       indicate whether folding should continue, or stop early. *)
