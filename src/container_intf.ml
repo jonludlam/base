@@ -9,7 +9,8 @@ open! Import
 
 module Export = struct
   (** [Continue_or_stop.t] is used by the [f] argument to [fold_until] in order to
-      indicate whether folding should continue, or stop early. *)
+      indicate whether folding should continue, or stop early.
+      @canonical Base.Container.Continue_or_stop *)
   module Continue_or_stop = struct
     type ('a, 'b) t =
       | Continue of 'a
