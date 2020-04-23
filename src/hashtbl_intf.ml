@@ -1,5 +1,6 @@
 open! Import
 
+(** @canonical Base.Hashtbl.Key *)
 module Key = struct
   module type S = sig
     type t [@@deriving_inline compare, sexp_of]
