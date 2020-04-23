@@ -109,7 +109,7 @@ module type S0 = sig
   val count : t -> f:(elt -> bool) -> int
 
   (** Returns the sum of [f i] for all [i] in the container. *)
-  val sum : (module Summable with type t = 'sum) -> t -> f:(elt -> 'sum) -> 'sum
+  val sum : (module Export.Summable with type t = 'sum) -> t -> f:(elt -> 'sum) -> 'sum
 
   (** Returns as an [option] the first element for which [f] evaluates to true. *)
   val find : t -> f:(elt -> bool) -> elt option
