@@ -2,6 +2,9 @@
 
 open! Import
 
+(** @canonical Base.Sign *)
+module Export = struct
+
 type t =
   | Neg
   | Zero
@@ -83,3 +86,8 @@ let _ = hash
 let hash = to_int
 let module_name = "Base.Sign"
 let of_int n = if n < 0 then Neg else if n = 0 then Zero else Pos
+
+end
+
+include Export
+
