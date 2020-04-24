@@ -36,6 +36,9 @@ module type Round = sig
   val round_nearest : t -> to_multiple_of:t -> t
 end
 
+(** @canonical Base.Int *)
+module Export = struct
+
 module type Hexable = sig
   type t
 
@@ -57,6 +60,7 @@ module type Hexable = sig
     val to_string_hum : ?delimiter:char -> t -> string
   end
 end
+end
 
 module type S_common = sig
   type t [@@deriving_inline hash, sexp]
@@ -74,7 +78,7 @@ module type S_common = sig
   include Intable.S with type t := t
   include Identifiable.S with type t := t
   include Comparable.With_zero with type t := t
-  include Hexable with type t := t
+  include Export.Hexable with type t := t
 
   (** [delimiter] is an underscore by default. *)
   val to_string_hum : ?delimiter:char -> t -> string
@@ -352,8 +356,9 @@ end
 module type Int = sig
   include Int_without_module_types
 
-  (** {2 Module types specifying integer operations.} *)
-  module type Hexable = Hexable
+  (** {2 Module types specifying integer operations.}
+    @inline *)
+  include module type of Export
 
   module type Int_without_module_types = Int_without_module_types
   module type Operators = Operators

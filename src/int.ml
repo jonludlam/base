@@ -1,5 +1,6 @@
 open! Import
 include Int_intf
+include Export
 include Int0
 
 module T = struct

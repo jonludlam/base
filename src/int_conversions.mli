@@ -105,7 +105,7 @@ module Make_hex (I : sig
     val ( < ) : t -> t -> bool
     val neg : t -> t
     val module_name : string
-  end) : Int_intf.Hexable with type t := I.t
+  end) : Int_intf.Export.Hexable with type t := I.t
 
 (** global ref affecting whether the [sexp_of_t] returned by [Make]
     is consistent with the [to_string] input or the [to_string_hum] output *)
