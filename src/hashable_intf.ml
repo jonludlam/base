@@ -1,6 +1,7 @@
 open! Import
 
-(** @canonical Base.Hashable.Key *)
+(** @canonical Base.Hashable *)
+module Export = struct
 module type Key = sig
   type t [@@deriving_inline compare, sexp_of]
   include
@@ -15,6 +16,8 @@ module type Key = sig
       case that [hash] returns a negative value. *)
   val hash : t -> int
 end
+end
+include Export
 
 module Hashable = struct
   type 'a t =
@@ -52,7 +55,7 @@ module Hashable = struct
   let hash = Caml.Hashtbl.hash
   let poly = { hash; compare = Poly.compare; sexp_of_t = (fun _ -> Sexp.Atom "_") }
 
-  let of_key (type a) (module Key : Key with type t = a) =
+  let of_key (type a) (module Key : Export.Key with type t = a) =
     { hash = Key.hash; compare = Key.compare; sexp_of_t = Key.sexp_of_t }
   ;;
 
@@ -63,7 +66,7 @@ module Hashable = struct
       let hash = hash
       let compare = compare
       let sexp_of_t = sexp_of_t
-    end : Key
+    end : Export.Key
       with type t = a)
   ;;
 end
@@ -79,8 +82,8 @@ module type Hashable = sig
 
   val equal : 'a t -> 'a t -> bool
   val poly : 'a t
-  val of_key : (module Key with type t = 'a) -> 'a t
-  val to_key : 'a t -> (module Key with type t = 'a)
+  val of_key : (module Export.Key with type t = 'a) -> 'a t
+  val to_key : 'a t -> (module Export.Key with type t = 'a)
   val hash_param : int -> int -> 'a -> int
   val hash : 'a -> int
 end
