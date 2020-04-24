@@ -166,6 +166,7 @@ module Symmetric_diff_element = struct
   [@@@end]
 end
 
+(** @canonical Base.Map.Continue_or_stop *)
 module Continue_or_stop = struct
   type t =
     | Continue
@@ -182,6 +183,7 @@ module Continue_or_stop = struct
   [@@@end]
 end
 
+(** @canonical Base.Map.Finished_or_unfinished *)
 module Finished_or_unfinished = struct
   type t =
     | Finished
